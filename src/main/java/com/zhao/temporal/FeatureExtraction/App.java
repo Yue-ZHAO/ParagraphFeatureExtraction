@@ -36,7 +36,10 @@ public class App
         FileProcess.addLinetoaFile("@RELATION \"paragraph timestamps\"", outFile.getAbsolutePath());
         
         FileProcess.addLinetoaFile("@ATTRIBUTE tag NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE tagRecent NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE tagYear NUMERIC", outFile.getAbsolutePath());    
         
+        FileProcess.addLinetoaFile("@ATTRIBUTE pageTime NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE position NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE lengthAbsolute NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE lengthRelative NUMERIC", outFile.getAbsolutePath());
@@ -62,6 +65,7 @@ public class App
         
         FileProcess.addLinetoaFile("@ATTRIBUTE lenDistAvgTEs NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE lenDistLongTEs NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE orgFileName STRING", outFile.getAbsolutePath());
         
         FileProcess.addLinetoaFile("@DATA", outFile.getAbsolutePath());
         File[] srcFileList = srcFolder.listFiles();

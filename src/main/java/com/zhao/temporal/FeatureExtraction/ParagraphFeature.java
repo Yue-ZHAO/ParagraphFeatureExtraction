@@ -3,8 +3,11 @@ package com.zhao.temporal.FeatureExtraction;
 
 public class ParagraphFeature {
 	public int tag = 0;	//	The tag of the paragraph. Days = page time stamp - tagged time stamp
+	public int tagRecent = -1;
+	public int tagYear = 0;
 	
 	//	Features
+	public int pageTime = 0;
 	
 	//	Feature Part 1: easy to extract
 	public int pos = 0;	//	A score of the position of the phase in the doc. Using the position of the start point like 5 means 5%.
@@ -44,6 +47,7 @@ public class ParagraphFeature {
 	public int lenDistLongTEs = 0;	//	The longest character distance between temporal expression and the former one in the paragraph
 	//	TODO it is an important feature.	
 	//	public int lenDistShortTEs = 0;	//	The shortest character distance between temporal expressions in the paragraph
+	public String orgFile = "";
 	
 	//	TODO need to change the DateTime features to string
 	public String featuresToString() {
@@ -90,50 +94,12 @@ public class ParagraphFeature {
 	public String featuresToStringWithTag() {
 		String featureString = "";
 		
-		featureString = tag + " "
-				
-				      + pos + " "
-					  + lenAbs + " "
-					  + lenRlt + " "
-					  + lenDistFormerPara + " "
-					  + lenDistAfterPara + " "
-					  
-					  + numSent + " "
-					  + lenLongSent + " "
-					  + lenShortSent + " "
-					  + lenAvgSent + " "
-					  
-					  + numTEs + " "
-					  + numTEsBefore + " "
-					  
-					  + numOfDate + " "
-					  + numOfDuration + " "
-					  + numOfTime + " "
-					  + numOfSet + " "
-					  // + numTEsAfter + " "
-					  // + numExpTEs + " "
-					  // + numExpTEsBefore + " "
-					  // + numExpTEsAfter + " "
-					  + valEarliestTE + " "
-					  + valLatestTE + " "
-					  + valClosestTE + " "
-					  + valSpanTE + " "
-					  // + valEarliestExpTE + " "
-					  // + valLatestExpTE + " "
-					  // + valClosestExpTE + " "
-					  // + valSpanExpTE + " "
-					  + lenDistAvgTEs + " "
-					  + lenDistLongTEs;
-					  // + lenDistShortTEs;
-		
-		return featureString;
-	}
-	
-	public String featuresToARFF() {
-		String featureString = "";
-		
 		featureString = tag + ","
-				
+					  
+					  + tagRecent + ","
+					  + tagYear + ","
+					  
+				      + pageTime + ","
 				      + pos + ","
 					  + lenAbs + ","
 					  + lenRlt + ","
@@ -165,7 +131,55 @@ public class ParagraphFeature {
 					  // + valClosestExpTE + " "
 					  // + valSpanExpTE + " "
 					  + lenDistAvgTEs + ","
-					  + lenDistLongTEs;
+					  + lenDistLongTEs + ","
+					  + orgFile;
+					  // + lenDistShortTEs;
+		
+		return featureString;
+	}
+	
+	public String featuresToARFF() {
+		String featureString = "";
+		
+		featureString = tag + ","
+					  
+					  + tagRecent + ","
+					  + tagYear + ","
+					  
+				      + pageTime + ","
+				      + pos + ","
+					  + lenAbs + ","
+					  + lenRlt + ","
+					  + lenDistFormerPara + ","
+					  + lenDistAfterPara + ","
+					  
+					  + numSent + ","
+					  + lenLongSent + ","
+					  + lenShortSent + ","
+					  + lenAvgSent + ","
+					  
+					  + numTEs + ","
+					  + numTEsBefore + ","
+					  
+					  + numOfDate + ","
+					  + numOfDuration + ","
+					  + numOfTime + ","
+					  + numOfSet + ","
+					  // + numTEsAfter + " "
+					  // + numExpTEs + " "
+					  // + numExpTEsBefore + " "
+					  // + numExpTEsAfter + " "
+					  + valEarliestTE + ","
+					  + valLatestTE + ","
+					  + valClosestTE + ","
+					  + valSpanTE + ","
+					  // + valEarliestExpTE + " "
+					  // + valLatestExpTE + " "
+					  // + valClosestExpTE + " "
+					  // + valSpanExpTE + " "
+					  + lenDistAvgTEs + ","
+					  + lenDistLongTEs+ ","
+					  + orgFile;
 					  // + lenDistShortTEs;
 		
 		return featureString;

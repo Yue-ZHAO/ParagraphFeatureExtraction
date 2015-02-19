@@ -32,14 +32,19 @@ public class ParagraphFeatureExtractor {
 		
 		//	Get some information about the whole page.
 		int startPosTotal = taggedPageReader.paragraphs.get(0).getStartPoint();	//	The start position of the first paragraph in the page
-		int endPasTotal = taggedPageReader.paragraphs.
+		int endPosTotal = taggedPageReader.paragraphs.
 				get(taggedPageReader.paragraphs.size()-1).getEndPoint();	//	The end position of the last paragraph in the page		
-		int lenthTotal = endPasTotal- startPosTotal;
+		int lenthTotal = endPosTotal- startPosTotal;
 		String pageTimestamp = taggedPageReader.timestamp;
 		DateTime pageTime = new DateTime(pageTimestamp);
 		
 		int numTEsBefore = 0;	//	The number of TEs in the same page before this paragraph
-		//	Procedure for each paragraph
+		
+		
+		
+		
+		
+//--------------------------------	Procedure for each paragraph  -----------------------------------------
 		for (int i =0; i<taggedPageReader.paragraphs.size(); i++) {
 			
 			Paragraph paragraph = taggedPageReader.paragraphs.get(i);			
@@ -49,9 +54,23 @@ public class ParagraphFeatureExtractor {
 			//	Tag: using the time stamp of the paragraph as the tag.
 			DateTime paraTimestamps = new DateTime(paragraph.getTimestamp());
 			paragraphFeature.tag = Days.daysBetween(baseTime, paraTimestamps).getDays();
-			
+			paragraphFeature.tagYear = paraTimestamps.getYear();
+			paragraphFeature.tagRecent = Days.daysBetween(paraTimestamps, pageTime).getDays();
+			paragraphFeature.orgFile = taggedPageReader.originalFileName;
+//			int flagTagRecent = 
+//			if (flagTagRecent <= 30)
+//				paragraphFeature.tagRecent = "A";
+//			else if (flagTagRecent <= 180)
+//				paragraphFeature.tagRecent = "B";
+//			else if (flagTagRecent <= 360)
+//				paragraphFeature.tagRecent = "C";
+//			else if (flagTagRecent <= 720)
+//				paragraphFeature.tagRecent = "D";
+//			else
+//				paragraphFeature.tagRecent = "E";
 			
 			//	Features:
+			paragraphFeature.pageTime = Days.daysBetween(baseTime, pageTime).getDays();
 			//	For the first paragraph in the page, treat the gap between this paragraph and the former one as 0
 			paragraphFeature.pos = paragraph.getStartPoint();
 			paragraphFeature.lenAbs = paragraph.getContent().length();
@@ -263,8 +282,15 @@ public class ParagraphFeatureExtractor {
 				else
 					paragraphFeature.lenDistLongTEs = paragraphFeature.lenAbs - formerTimeEndPos;
 			}
+			
+			
+			
 			paragraphFeatureList.add(paragraphFeature);
-		}		
+		}
+//--------------------------------	Procedure for each paragraph  -----------------------------------------
+		
+		
+		
 		return paragraphFeatureList;
 	}
 

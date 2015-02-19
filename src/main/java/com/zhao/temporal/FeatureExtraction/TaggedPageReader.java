@@ -13,11 +13,13 @@ public class TaggedPageReader {
 	public String originalFileName = "";
 	public int numOfPara = 0;
 	public List<Paragraph> paragraphs = new ArrayList<Paragraph>();
+	public int numOfTimestamps = 0;
+	public List<String> timestampList = new ArrayList<String>();
 	//	Add more elements if needed.............
 	
 	public TaggedPageReader (String pagePath) throws IOException {
 		
-		// TODO Filter the files which are not the tagged page
+		// Filter the files which are not the tagged page
 		int flagForTaggedPage = 0;
 		List<String> linesFile = FileProcess.readFileLineByLine(pagePath);
 		for (String lineFile: linesFile) {
@@ -35,7 +37,17 @@ public class TaggedPageReader {
         		} else if (lineFile.startsWith("#Number of Paragraphs: ")) {
         			numOfPara = Integer.parseInt(lineFile.substring(23));
         			flagForTaggedPage++;
-        		} else
+        		} else if (lineFile.startsWith("#Number of Paragraph Timestamps: ")) {
+        			numOfTimestamps = Integer.parseInt(lineFile.substring(33));
+        		} else if (lineFile.startsWith("#List of Paragraph Timestamps: ")) {
+        			if (numOfTimestamps > 0) {
+        				String paraTimestamps = lineFile.substring(31).trim();
+        				String[] paraTimestampsList = paraTimestamps.split(" ");
+        				for (String paraTimestamp: paraTimestampsList)
+        					timestampList.add(paraTimestamp.trim());
+        			}
+        		}
+        		else
         			continue;
         	} else {
         		if (flagForTaggedPage < 4)
@@ -71,6 +83,12 @@ public class TaggedPageReader {
 		System.out.println(taggedPageReader.originalFileName);
 		System.out.println(taggedPageReader.numOfPara);
 		
+		System.out.println("");
+		System.out.println(taggedPageReader.numOfTimestamps);		
+		for (String paraTimestamp: taggedPageReader.timestampList)
+			System.out.println(paraTimestamp);
+		
+		System.out.println("");
 		for (Paragraph paragraph: taggedPageReader.paragraphs) {
 			System.out.println(paragraph.getStartPoint());
 			System.out.println(paragraph.getEndPoint());
