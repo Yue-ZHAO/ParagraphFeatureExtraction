@@ -47,27 +47,16 @@ public class ParagraphFeatureExtractor {
 //--------------------------------	Procedure for each paragraph  -----------------------------------------
 		for (int i =0; i<taggedPageReader.paragraphs.size(); i++) {
 			
-			Paragraph paragraph = taggedPageReader.paragraphs.get(i);			
+			Paragraph paragraph = taggedPageReader.paragraphs.get(i);
+			//	TODO 1, update startPosTotal, update endPosTotal, lengthTotal
 			ParagraphFeature paragraphFeature = new ParagraphFeature();
-			
-			
+						
 			//	Tag: using the time stamp of the paragraph as the tag.
 			DateTime paraTimestamps = new DateTime(paragraph.getTimestamp());
 			paragraphFeature.tag = Days.daysBetween(baseTime, paraTimestamps).getDays();
 			paragraphFeature.tagYear = paraTimestamps.getYear();
 			paragraphFeature.tagRecent = Days.daysBetween(paraTimestamps, pageTime).getDays();
 			paragraphFeature.orgFile = taggedPageReader.originalFileName;
-//			int flagTagRecent = 
-//			if (flagTagRecent <= 30)
-//				paragraphFeature.tagRecent = "A";
-//			else if (flagTagRecent <= 180)
-//				paragraphFeature.tagRecent = "B";
-//			else if (flagTagRecent <= 360)
-//				paragraphFeature.tagRecent = "C";
-//			else if (flagTagRecent <= 720)
-//				paragraphFeature.tagRecent = "D";
-//			else
-//				paragraphFeature.tagRecent = "E";
 			
 			//	Features:
 			paragraphFeature.pageTime = Days.daysBetween(baseTime, pageTime).getDays();
@@ -173,18 +162,13 @@ public class ParagraphFeatureExtractor {
 					//	For the features about TE value
 					String dateOfTE = timeExpression.get(TimeExpression.Annotation.class).getTemporal().getTimexValue();
  					if (dateOfTE != null && dateOfTE.matches("^(\\d+)(.*)")) {
-						//	System.out.println("Preprocess: " + dateOfTE);
-						//	System.out.println("Range: " + timeExpression.get(TimeExpression.Annotation.class).getTemporal().getRange());
-						//	filter some strange format
-						//	can be separated by - or start with a number
-						//	Pattern pattern = Pattern.compile("^(\\d+)(.*)");
-						//	Matcher matcher = pattern.matcher(dateOfTE);
+
 						String[] datePart = dateOfTE.split("-");
 
 						Boolean flagTransformable = false;
-						if (datePart.length == 1 && dateOfTE.matches("^[0-9]*$"))
+						if (datePart.length == 1 && dateOfTE.matches("^[0-9]*$")) {
 							flagTransformable = true;
-						else if (datePart.length == 2) {
+						} else if (datePart.length == 2) {
 							String year = datePart[0];
 							String month = datePart[1];
 							if (year.matches("^[0-9]*$")) {
@@ -218,32 +202,35 @@ public class ParagraphFeatureExtractor {
 						}
 						
 						if (flagTransformable) {
-							//	System.out.println("Type: " + typeOfTE);
-							//	System.out.println("DURATION: " + timeExpression.get(TimeExpression.Annotation.class).getTemporal().getRange());	//	ERROR FOR 2012-03-06TDT
-							//	System.out.println("Processed: " + dateOfTE);
-							//	Calculate for datetime features
+
 							DateTime timeValue = new DateTime(dateOfTE);
-							if (valEarliestTE == null)
-								valEarliestTE = timeValue;
-							else {
-								if (timeValue.isBefore(valEarliestTE))
+							
+							//	To make sure the TE is meaningful, I set a meaningful timespan, from 1700-01-01 to 2100-01-01.
+							DateTime timeMinMeaningful = new DateTime("1700-01-01");
+							DateTime timeMaxMeaningful = new DateTime("2100-01-01");
+							if (timeValue.isAfter(timeMinMeaningful) && timeValue.isBefore(timeMaxMeaningful)) {
+								if (valEarliestTE == null)
 									valEarliestTE = timeValue;
-							}
+								else {
+									if (timeValue.isBefore(valEarliestTE))
+										valEarliestTE = timeValue;
+								}
 							
-							if (valLatestTE == null)
-								valLatestTE = timeValue;
-							else {
-								if (timeValue.isAfter(valLatestTE))
+								if (valLatestTE == null)
 									valLatestTE = timeValue;
-							}
+								else {
+									if (timeValue.isAfter(valLatestTE))
+										valLatestTE = timeValue;
+								}
 							
-							if (valClosestTE == null)
-								valClosestTE = timeValue;
-							else {
-								int daysGap1 = Days.daysBetween(timeValue, pageTime).getDays();
-								int daysGap2 = Days.daysBetween(valClosestTE, pageTime).getDays();
-								if (Math.abs(daysGap1) < Math.abs(daysGap2))
-									valClosestTE = timeValue;	
+								if (valClosestTE == null)
+									valClosestTE = timeValue;
+								else {
+									int daysGap1 = Days.daysBetween(timeValue, pageTime).getDays();
+									int daysGap2 = Days.daysBetween(valClosestTE, pageTime).getDays();
+									if (Math.abs(daysGap1) < Math.abs(daysGap2))
+										valClosestTE = timeValue;	
+								}
 							}
 						}
 					}
