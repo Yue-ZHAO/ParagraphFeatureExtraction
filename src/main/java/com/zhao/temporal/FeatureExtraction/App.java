@@ -35,6 +35,7 @@ public class App
         File outFile = new File(args[1]);
         FileProcess.addLinetoaFile("@RELATION \"paragraph timestamps\"", outFile.getAbsolutePath());
         
+        //	TODO need to add more features
         FileProcess.addLinetoaFile("@ATTRIBUTE tag NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE tagRecent NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE tagYear NUMERIC", outFile.getAbsolutePath());    
@@ -58,13 +59,44 @@ public class App
         FileProcess.addLinetoaFile("@ATTRIBUTE numOfTime NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE numOfSet NUMERIC", outFile.getAbsolutePath());
         
+        FileProcess.addLinetoaFile("@ATTRIBUTE lenDistAvgTEs NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE lenDistLongTEs NUMERIC", outFile.getAbsolutePath());
+
         FileProcess.addLinetoaFile("@ATTRIBUTE valEarliestTE NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE valLatestTE NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE valClosestTE NUMERIC", outFile.getAbsolutePath());
         FileProcess.addLinetoaFile("@ATTRIBUTE valSpanTE NUMERIC", outFile.getAbsolutePath());
+
+        FileProcess.addLinetoaFile("@ATTRIBUTE valEarliestExpTE NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE valLatestExpTE NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE valClosestExpTE NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE valSpanExpTE NUMERIC", outFile.getAbsolutePath());
+
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp1996 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp1997 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp1998 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp1999 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2000 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2001 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2002 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2003 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2004 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2005 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2006 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2007 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2008 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2009 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2010 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2011 NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE Exp2012 NUMERIC", outFile.getAbsolutePath());
         
-        FileProcess.addLinetoaFile("@ATTRIBUTE lenDistAvgTEs NUMERIC", outFile.getAbsolutePath());
-        FileProcess.addLinetoaFile("@ATTRIBUTE lenDistLongTEs NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVB NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVBD NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVBG NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVBN NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVBP NUMERIC", outFile.getAbsolutePath());
+        FileProcess.addLinetoaFile("@ATTRIBUTE numVBZ NUMERIC", outFile.getAbsolutePath());
+        
         FileProcess.addLinetoaFile("@ATTRIBUTE orgFileName STRING", outFile.getAbsolutePath());
         
         FileProcess.addLinetoaFile("@DATA", outFile.getAbsolutePath());
@@ -82,9 +114,9 @@ public class App
         	if (paragraphFeatureList.isEmpty() || paragraphFeatureList == null)
         		continue;
         	for (ParagraphFeature paragraphFeature: paragraphFeatureList) {
-        		System.out.println(paragraphFeature.featuresToStringWithTag());
+        		System.out.println(paragraphFeature.featuresToARFFwithTag());
         		//	Write the features to the file as a ARFF format
-        		FileProcess.addLinetoaFile(paragraphFeature.featuresToARFF(), outFile.getAbsolutePath());
+        		FileProcess.addLinetoaFile(paragraphFeature.featuresToARFFwithTag(), outFile.getAbsolutePath());
         	}
         	
         	System.out.println("Finish the File: " + srcFile.getName());
