@@ -25,9 +25,9 @@ public class App
         File srcFolder = new File(srcFolderPath);
         
         Properties props = new Properties();
-        props.put("annotators", "tokenize, ssplit, pos, lemma, ner, sutime");        
+        props.put("annotators", "tokenize, ssplit, pos, sutime");        
         props.put("customAnnotatorClass.sutime", "edu.stanford.nlp.time.TimeAnnotator");
-        props.put("sutime.rules", "sutimeRules/defs.sutime.txt, sutimeRules/english.sutime.txt");
+        props.put("sutime.rules", "sutimeRules/defs.sutime.txt, sutimeRules/english.sutime.txt, sutimeRules/english.holidays.sutime.txt");
 
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
         
