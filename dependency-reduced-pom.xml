@@ -4,18 +4,9 @@
   <groupId>com.zhao.temporal</groupId>
   <artifactId>FeatureExtraction</artifactId>
   <name>FeatureExtraction</name>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <build>
-    <resources>
-      <resource>
-        <targetPath>lib/</targetPath>
-        <directory>lib/</directory>
-        <includes>
-          <include>/Users/yuezhao/.m2/repository/com/wcohen/ss/1.0/ss-1.0.jar</include>
-        </includes>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
